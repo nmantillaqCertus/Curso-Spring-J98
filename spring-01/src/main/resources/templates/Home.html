@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${TituloPagina}"></title>
+</head>
+<body>
+
+	<h1 th:text="${titulo}"></h1>
+	<hr>
+	<div>
+		<ul th:each="personaje : ${listita}" >
+			<li th:text="${personaje.nombres}" ></li>
+		</ul>	
+	</div>	
+</body>
+</html>
