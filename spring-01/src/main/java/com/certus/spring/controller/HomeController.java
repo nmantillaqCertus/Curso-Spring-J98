@@ -3,6 +3,8 @@ package com.certus.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.certus.spring.models.Personaje;
+import com.certus.spring.service.IPersonajeService;
 
 @Controller
 @RequestMapping("/app")
@@ -17,46 +20,51 @@ public class HomeController {
 
 	@Value("${title.generic}")
 	private String titlePage;
+		
+	@Autowired
+	@Qualifier("servicio1")
+	private IPersonajeService InterfacePersonaje1; 
+	
+	@Autowired
+	@Qualifier("servicio2")
+	private IPersonajeService InterfacePersonaje2; 
+	
 
 	@GetMapping({ "/home", "/inicio", "/", "/Home", "/Inicio" })
-	public String HolaMundo(Model model) {
-
-		// Instanciando un personaje1 del tipo Personaje
-		Personaje personaje1 = new Personaje();
-
-		// Agregando datos a los atributos del personaje1
-		personaje1.setNombres("Luffy");
-		personaje1.setAlias("Luffy Alias");
-		personaje1.setTipoFruta("Luffy Tipo Fruta");
-		personaje1.setHabilidad("Luffy Hablidad");
-		personaje1.setTripulacion("Luffy Trupulacion");
-		personaje1.setReconpensa("123456789");
-
-		// Instanciando una lista del tipo List del tip Personaje
-		List<Personaje> listita = new ArrayList<>();
-
-		// Instanciando un personaje2 del tipo Personaje
-		Personaje personaje2 = new Personaje();
-
-		// Agregando datos a los atributos del personaje2
-		personaje2.setNombres("Luffy 2");
-		personaje2.setAlias("Luffy Alias 2");
-		personaje2.setTipoFruta("Luffy Tipo Fruta 2");
-		personaje2.setHabilidad("Luffy Hablidad 2");
-		personaje2.setTripulacion("Luffy Trupulacion 2");
-		personaje2.setReconpensa("123456789 2");
-		
-
-		// Agregando un personaje a la lista
-		listita.add(personaje1);
-		listita.add(personaje2);
-
+	public String Home(Model model) {
 		model.addAttribute("TituloPagina", titlePage);
 		model.addAttribute("titulo", "Sección J98 - Demo listado");
-		model.addAttribute("listita", listita);
-
+		
+		//List<Personaje>  listasUnidas =  new ArrayList<>();
+		
+		if (InterfacePersonaje1.crearPersonaje().getEstado()) {			
+			model.addAttribute("listita", InterfacePersonaje1.crearPersonaje().getData());
+		}
+		
+		
+		/*listasUnidas.addAll(InterfacePersonaje1.crearPersonaje().getData());
+		listasUnidas.addAll(InterfacePersonaje2.crearPersonaje().getData());
+		
+		model.addAttribute("listita", listasUnidas);*/
+		
+		model.addAttribute("Estado", InterfacePersonaje1.crearPersonaje().getMensaje());
+		
+		Personaje personaje =  new Personaje();
+		
+		String respuesta = InterfacePersonaje2.demoMetodo(personaje);
+		
+		model.addAttribute("respuesta", respuesta);
+		
 		return "Home";
 
 	}
+	
+	@GetMapping("/crear")
+	public String Formulario(Model model) {
+		
+		
+		return "Formulario";		
+	}
+	
 
 }

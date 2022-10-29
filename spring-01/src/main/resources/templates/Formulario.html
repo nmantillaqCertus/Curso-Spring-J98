@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title th:text="${TituloPagina}"></title>
+<meta charset="utf-8">
+<title>Insert title here</title>
 <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
 </head>
 <body>
@@ -45,29 +45,37 @@
 	<div class="container mt-2">
 		<div class="jumbotron">
 			<h1 class="display-4" th:text="${titulo}"></h1>
-			<br>
 			<p class="lead" th:text="${Estado}"></p>
-
 			<hr class="my-4">
-			<div class="jumbotron">
-				<ul class="list-group" th:each="personaje : ${listita}">
-					<li class="list-group-item" th:text="${personaje.nombres}"></li>
-					<li class="list-group-item" th:text="${personaje.alias}"></li>
-					<li class="list-group-item" th:text="${personaje.tipoFruta}"></li>
-				</ul>
+
+			<div>
+				<form>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Email address</label> <input
+							type="email" class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp"> <small id="emailHelp"
+							class="form-text text-muted">We'll never share your email
+							with anyone else.</small>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Password</label> <input
+							type="password" class="form-control" id="exampleInputPassword1">
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1">
+						<label class="form-check-label" for="exampleCheck1">Check
+							me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+
 			</div>
 
 		</div>
-
 	</div>
-
-	<p th:text="${respuesta}"></p>
-
 
 
 	<script src="/bootstrap/jquery.slim.min.js"></script>
 	<script src="/bootstrap/bootstrap.bundle.min.js"></script>
-
-
 </body>
 </html>
