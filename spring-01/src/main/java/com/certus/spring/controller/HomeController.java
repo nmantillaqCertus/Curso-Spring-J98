@@ -62,6 +62,7 @@ public class HomeController {
 	@GetMapping("/crear")
 	public String Formulario(Model model) {
 		
+		model.addAttribute("titulo", "Sección J98 - Crear Personaje");
 		
 		return "Formulario";		
 	}
