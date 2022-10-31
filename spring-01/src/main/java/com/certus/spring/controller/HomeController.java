@@ -1,15 +1,15 @@
 package com.certus.spring.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.service.IPersonajeService;
@@ -61,8 +61,35 @@ public class HomeController {
 	
 	@GetMapping("/crear")
 	public String Formulario(Model model) {
+		Personaje personaje =  new Personaje();
 		
-		model.addAttribute("titulo", "Sección J98 - Crear Personaje");
+		model.addAttribute("TituloPagina", titlePage);
+		model.addAttribute("titulo", "Sección J98 - Crear Personaje");		
+		model.addAttribute("personaje", personaje);
+		
+		return "Formulario";		
+	}
+	
+	@PostMapping("/form")
+	public String creaPersonaje( @RequestParam String nombres, 
+								 @RequestParam String alias,
+								 @RequestParam String tipoFruta,
+								 @RequestParam String habilidad,
+								 @RequestParam String tripulacion,
+								 @RequestParam String reconpensa,
+								 Model model) {
+		
+		Personaje personaje =  new Personaje();				
+		personaje.setNombres(nombres);
+		personaje.setAlias(alias);
+		personaje.setTipoFruta(tipoFruta);
+		personaje.setHabilidad(habilidad);
+		personaje.setTripulacion(tripulacion);
+		personaje.setReconpensa(reconpensa);
+		
+		model.addAttribute("TituloPagina", titlePage);
+		model.addAttribute("titulo", "Sección J98 - Personaje Creado");		
+		model.addAttribute("personaje", personaje);
 		
 		return "Formulario";		
 	}

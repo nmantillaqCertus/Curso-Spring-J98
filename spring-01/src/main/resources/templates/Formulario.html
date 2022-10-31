@@ -2,13 +2,13 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title th:text="${TituloPagina}"></title>
 <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
 </head>
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Navbar</a>
+		<a class="navbar-brand" th:href="@{/app/home}">Pokemon</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -18,20 +18,12 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item active"><a class="nav-link" th:href="@{/app/home}">Inicio
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" role="button"
-					data-toggle="dropdown" aria-expanded="false"> Dropdown </a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#">Action</a> <a
-							class="dropdown-item" href="#">Another action</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div></li>
-				<li class="nav-item"><a class="nav-link disabled">Disabled</a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/app/home}">Lista Pokemon</a></li>
+				
+				<li class="nav-item"><a class="nav-link" th:href="@{/app/crear}" >Crear Pokemon</a>
 				</li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
@@ -49,35 +41,44 @@
 			<hr class="my-4">
 
 			<div>
-				<form>
+				<form th:action="@{/app/form}" method="post">
 					<div class="form-group">
 						<label for="idNombres">Nombres</label> 
-						<input type="text" class="form-control" id="idNombres"> 
+						<input type="text" name="nombres" class="form-control" id="idNombres"> 
 					</div>
 					<div class="form-group">
 						<label for="idAlias">Alias</label> 
-						<input type="text" class="form-control" id="idAlias"> 
+						<input type="text" name="alias"  class="form-control" id="idAlias"> 
 					</div>
 					<div class="form-group">
 						<label for="idTipoFruta">Tipo de Fruta</label> 
-						<input type="text" class="form-control" id="idTipoFruta"> 
+						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta"> 
 					</div>
 					<div class="form-group">
 						<label for="idHabilidad">Habilidad</label> 
-						<input type="text" class="form-control" id="idHabilidad"> 
+						<input type="text" name="habilidad" class="form-control" id="idHabilidad"> 
 					</div>
 					<div class="form-group">
 						<label for="idTripulacion">Tripulación</label> 
-						<input type="text" class="form-control" id="idTripulacion"> 
+						<input type="text" name="tripulacion" class="form-control" id="idTripulacion"> 
 					</div>
 					<div class="form-group">
 						<label for="idRecompensa">Recompensa</label> 
-						<input type="text" class="form-control" id="idRecompensa"> 
+						<input required="required" type="text" name="reconpensa" class="form-control" id="idRecompensa"> 
 					</div>
-					<button type="submit" class="btn btn-primary">Enviar</button>
+					<button type="submit" class="btn btn-success">Crear Personaje</button>
 				</form>
-
 			</div>
+			<hr>
+			<div>
+				<span th:text="${personaje.nombres}"></span><br/>
+				<span th:text="${personaje.alias}"></span><br/>
+				<span th:text="${personaje.tipoFruta}"></span><br/>
+				<span th:text="${personaje.habilidad}"></span><br/>
+				<span th:text="${personaje.tripulacion}"></span><br/>
+				<span th:text="${personaje.reconpensa}"></span><br/>
+			</div>
+			
 
 		</div>
 	</div>
