@@ -8,7 +8,7 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" th:href="@{/app/home}">Pokemon</a>
+		<a class="navbar-brand" th:href="@{/app/home}">One Piece</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -21,9 +21,9 @@
 				<li class="nav-item active"><a class="nav-link" th:href="@{/app/home}">Inicio
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/app/home}">Lista Pokemon</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/app/home}">Lista Personaje</a></li>
 				
-				<li class="nav-item"><a class="nav-link" th:href="@{/app/crear}" >Crear Pokemon</a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/app/crear}" >Crear Personaje</a>
 				</li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
@@ -42,30 +42,44 @@
 
 			<div>
 				<form th:action="@{/app/form}" method="post">
+				
 					<div class="form-group">
 						<label for="idNombres">Nombres</label> 
-						<input type="text" name="nombres" class="form-control" id="idNombres"> 
+						<input type="text" name="nombres" class="form-control" id="idNombres" th:value="${personaje.nombres}"> 
+						<div class="alert alert-danger" role="alert" th:if="${error != null && error.containsKey('nombres')}"  th:text="${error.nombres}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idAlias">Alias</label> 
-						<input type="text" name="alias"  class="form-control" id="idAlias"> 
+						<input type="text" name="alias"  class="form-control" id="idAlias" th:value="${personaje.alias}"> 
+						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('alias')}"  th:text="${error.alias}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idTipoFruta">Tipo de Fruta</label> 
-						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta"> 
+						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta" th:value="${personaje.tipoFruta}"> 
+						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('tipoFruta')}"  th:text="${error.tipoFruta}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idHabilidad">Habilidad</label> 
-						<input type="text" name="habilidad" class="form-control" id="idHabilidad"> 
+						<input type="text" name="habilidad" class="form-control" id="idHabilidad" th:value="${personaje.habilidad}"> 
+						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('habilidad')}"  th:text="${error.habilidad}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idTripulacion">Tripulación</label> 
-						<input type="text" name="tripulacion" class="form-control" id="idTripulacion"> 
+						<input type="text" name="tripulacion" class="form-control" id="idTripulacion" th:value="${personaje.tripulacion}"> 
+						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('tripulacion')}"  th:text="${error.tripulacion}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idRecompensa">Recompensa</label> 
-						<input required="required" type="text" name="reconpensa" class="form-control" id="idRecompensa"> 
+						<input type="text" name="reconpensa" class="form-control" id="idRecompensa" th:value="${personaje.reconpensa}"> 
+						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('reconpensa')}"  th:text="${error.reconpensa}" ></div>
 					</div>
+					
+					
 					<button type="submit" class="btn btn-success">Crear Personaje</button>
 				</form>
 			</div>

@@ -1,15 +1,19 @@
 package com.certus.spring.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.service.IPersonajeService;
@@ -71,25 +75,30 @@ public class HomeController {
 	}
 	
 	@PostMapping("/form")
-	public String creaPersonaje( @RequestParam String nombres, 
-								 @RequestParam String alias,
-								 @RequestParam String tipoFruta,
-								 @RequestParam String habilidad,
-								 @RequestParam String tripulacion,
-								 @RequestParam String reconpensa,
-								 Model model) {
+	public String creaPersonaje(@Valid Personaje Luffy, BindingResult result, Model model) {
 		
-		Personaje personaje =  new Personaje();				
-		personaje.setNombres(nombres);
-		personaje.setAlias(alias);
-		personaje.setTipoFruta(tipoFruta);
-		personaje.setHabilidad(habilidad);
-		personaje.setTripulacion(tripulacion);
-		personaje.setReconpensa(reconpensa);
+		if(result.hasErrors()) {
+			
+			Map<String, String> erroresPersonaje = new HashMap<>();
+			
+			result.getFieldErrors().forEach( PersonajeErrores ->{				
+				erroresPersonaje.put(PersonajeErrores.getField(), PersonajeErrores.getDefaultMessage());
+			});
+			
+			
+			model.addAttribute("TituloPagina", titlePage);
+			model.addAttribute("titulo", "Sección J98 - Personaje Creado");	
+			model.addAttribute("error", erroresPersonaje);
+			model.addAttribute("personaje", Luffy);
+			
+			return "Formulario";
+		}
+		
+		
 		
 		model.addAttribute("TituloPagina", titlePage);
 		model.addAttribute("titulo", "Sección J98 - Personaje Creado");		
-		model.addAttribute("personaje", personaje);
+		model.addAttribute("personaje", Luffy);
 		
 		return "Formulario";		
 	}
