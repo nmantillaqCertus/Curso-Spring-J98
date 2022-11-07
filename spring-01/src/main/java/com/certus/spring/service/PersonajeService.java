@@ -3,24 +3,51 @@ package com.certus.spring.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
+import com.certus.spring.repository.IPersonaje;
 
 @Component("servicio1")
 public class PersonajeService implements IPersonajeService {
+	
+	@Autowired
+	IPersonaje personajeRepository;	
 
-	public Response<Personaje> crearPersonaje() {
+	public Response<Personaje> crearPersonaje( Personaje personajeRecibo) {		
+		Response<Personaje> response = new Response<>();
 		
-		Response<Personaje> response = new Response<>();	
+		try {
+			Personaje psj = personajeRepository.save(personajeRecibo);
+			response.setEstado(true);
+			response.setMensaje("Creado Correctamente");
+			
+		} catch (Exception e) {
+			response.setEstado(false);
+			response.setMensaje(e.getMessage());
+		}
 		
-		boolean estadoCreacion = false;
+		return response;
+	}
+
+	
+	
+	public String editarPersonaje() {	
+		
+		return "Se ha editado un personaje";
+	}
+
+
+
+
+	@Override
+	public Response<Personaje> listarPersonaje() {
 		
 		List<Personaje> listita = new ArrayList<>();
+		Response<Personaje> response = new Response<>();	
 
-		// Instanciando un personaje1 del tipo Personaje
 		Personaje personaje1 = new Personaje();
 		personaje1.setNombres("Luffy");
 		personaje1.setAlias("Luffy Alias");
@@ -44,48 +71,16 @@ public class PersonajeService implements IPersonajeService {
 		personaje3.setHabilidad("Luffy Hablidad 3");
 		personaje3.setTripulacion("Luffy Trupulacion 3");
 		personaje3.setReconpensa("123456789 3");
-
-		// Agregando un personaje a la lista
+		
 		listita.add(personaje1);
 		listita.add(personaje2);
 		listita.add(personaje3);
 		
-		//Validación de lista de personajes
-		if(listita.size() > 0) {
-			estadoCreacion = true;
-			response.setEstado(estadoCreacion);
-			response.setMensaje("Creado Correctamente");
-			response.setData(listita);
-		}else {
-			response.setEstado(estadoCreacion);
-			response.setMensaje("Se produjo un error, contactar con el admistrador del sistema");					
-		}
+		response.setEstado(true);
+		response.setMensaje("Creado Correctamente");
+		response.setData(listita);	
 		
-
 		return response;
-	}
-
-	
-	
-	
-	public String editarPersonaje() {	
-		
-		return "Se ha editado un personaje";
-	}
-
-
-
-
-	@Override
-	public String demoMetodo(Personaje p) {
-		
-		String respuesta = "Procesando";
-		
-		if(p != null) {
-			respuesta = "Todo OK";
-		}
-		
-		return respuesta;
 	}
 
 }

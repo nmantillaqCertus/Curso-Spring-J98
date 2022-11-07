@@ -1,8 +1,5 @@
 package com.certus.spring.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.certus.spring.models.Personaje;
+import com.certus.spring.models.Response;
 import com.certus.spring.service.IPersonajeService;
 
 @Controller
@@ -24,6 +22,9 @@ public class HomeController {
 
 	@Value("${title.generic}")
 	private String titlePage;
+	
+	@Value("${mensaje}")
+	private String mensaje;
 		
 	@Autowired
 	@Qualifier("servicio1")
@@ -37,31 +38,29 @@ public class HomeController {
 	@GetMapping({ "/home", "/inicio", "/", "/Home", "/Inicio" })
 	public String Home(Model model) {
 		model.addAttribute("TituloPagina", titlePage);
-		model.addAttribute("titulo", "Sección J98 - Demo listado");
-		
-		//List<Personaje>  listasUnidas =  new ArrayList<>();
-		
-		if (InterfacePersonaje1.crearPersonaje().getEstado()) {			
-			model.addAttribute("listita", InterfacePersonaje1.crearPersonaje().getData());
-		}
-		
-		
-		/*listasUnidas.addAll(InterfacePersonaje1.crearPersonaje().getData());
-		listasUnidas.addAll(InterfacePersonaje2.crearPersonaje().getData());
-		
-		model.addAttribute("listita", listasUnidas);*/
-		
-		model.addAttribute("Estado", InterfacePersonaje1.crearPersonaje().getMensaje());
-		
-		Personaje personaje =  new Personaje();
-		
-		String respuesta = InterfacePersonaje2.demoMetodo(personaje);
-		
-		model.addAttribute("respuesta", respuesta);
+		model.addAttribute("titulo", "Sección J98");				
+		model.addAttribute("Mensaje", mensaje);
 		
 		return "Home";
 
 	}
+	
+	@GetMapping("/listar")
+	public String ListarPersonajes(Model model) {
+		
+		model.addAttribute("TituloPagina", titlePage);
+		model.addAttribute("titulo", "Sección J98");
+		model.addAttribute("Mensaje", mensaje);
+		
+		Response<Personaje> rspta = InterfacePersonaje1.listarPersonaje();
+		
+		model.addAttribute("listita", rspta.getData());
+		
+		return "lista";
+	}
+	
+	
+	
 	
 	@GetMapping("/crear")
 	public String Formulario(Model model) {
@@ -77,30 +76,19 @@ public class HomeController {
 	@PostMapping("/form")
 	public String creaPersonaje(@Valid Personaje Luffy, BindingResult result, Model model) {
 		
-		if(result.hasErrors()) {
-			
-			Map<String, String> erroresPersonaje = new HashMap<>();
-			
-			result.getFieldErrors().forEach( PersonajeErrores ->{				
-				erroresPersonaje.put(PersonajeErrores.getField(), PersonajeErrores.getDefaultMessage());
-			});
-			
-			
-			model.addAttribute("TituloPagina", titlePage);
-			model.addAttribute("titulo", "Sección J98 - Personaje Creado");	
-			model.addAttribute("error", erroresPersonaje);
-			model.addAttribute("personaje", Luffy);
-			
+		if(result.hasErrors()) {						
 			return "Formulario";
 		}
 		
+		Response<Personaje> rspta = InterfacePersonaje1.crearPersonaje(Luffy);
 		
+		if (rspta.getEstado()) {			
+			return "redirect:lista";	
+		}else {
+			model.addAttribute("mensaje", rspta.getMensaje());
+			return "redirect:Error";
+		}
 		
-		model.addAttribute("TituloPagina", titlePage);
-		model.addAttribute("titulo", "Sección J98 - Personaje Creado");		
-		model.addAttribute("personaje", Luffy);
-		
-		return "Formulario";		
 	}
 	
 

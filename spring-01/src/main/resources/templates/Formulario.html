@@ -21,7 +21,7 @@
 				<li class="nav-item active"><a class="nav-link" th:href="@{/app/home}">Inicio
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/app/home}">Lista Personaje</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/app/listar}">Lista Personaje</a></li>
 				
 				<li class="nav-item"><a class="nav-link" th:href="@{/app/crear}" >Crear Personaje</a>
 				</li>
@@ -41,58 +41,53 @@
 			<hr class="my-4">
 
 			<div>
-				<form th:action="@{/app/form}" method="post">
+				<form th:action="@{/app/form}" th:object="${personaje}"  method="post">
 				
 					<div class="form-group">
 						<label for="idNombres">Nombres</label> 
-						<input type="text" name="nombres" class="form-control" id="idNombres" th:value="${personaje.nombres}"> 
-						<div class="alert alert-danger" role="alert" th:if="${error != null && error.containsKey('nombres')}"  th:text="${error.nombres}" ></div>
+						<input type="text" name="nombres" class="form-control" id="idNombres" th:field="*{nombres}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nombres')}"  th:errors="*{nombres}" ></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="idAlias">Alias</label> 
-						<input type="text" name="alias"  class="form-control" id="idAlias" th:value="${personaje.alias}"> 
-						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('alias')}"  th:text="${error.alias}" ></div>
+						<input type="text" name="alias"  class="form-control" id="idAlias" th:field="*{alias}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('alias')}"  th:errors="*{alias}" ></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="idTipoFruta">Tipo de Fruta</label> 
-						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta" th:value="${personaje.tipoFruta}"> 
-						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('tipoFruta')}"  th:text="${error.tipoFruta}" ></div>
+						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta" th:field="*{tipoFruta}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('tipoFruta')}"  th:errors="*{tipoFruta}" ></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="idHabilidad">Habilidad</label> 
-						<input type="text" name="habilidad" class="form-control" id="idHabilidad" th:value="${personaje.habilidad}"> 
-						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('habilidad')}"  th:text="${error.habilidad}" ></div>
+						<input type="text" name="habilidad" class="form-control" id="idHabilidad" th:field="*{habilidad}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('habilidad')}"  th:errors="*{habilidad}" ></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="idTripulacion">Tripulación</label> 
-						<input type="text" name="tripulacion" class="form-control" id="idTripulacion" th:value="${personaje.tripulacion}"> 
-						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('tripulacion')}"  th:text="${error.tripulacion}" ></div>
+						<input type="text" name="tripulacion" class="form-control" id="idTripulacion" th:field="*{tripulacion}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('tripulacion')}"  th:errors="*{tripulacion}" ></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="idRecompensa">Recompensa</label> 
-						<input type="text" name="reconpensa" class="form-control" id="idRecompensa" th:value="${personaje.reconpensa}"> 
-						<div class="alert alert-danger" role="alert"  th:if="${error != null && error.containsKey('reconpensa')}"  th:text="${error.reconpensa}" ></div>
+						<input type="text" name="reconpensa" class="form-control" id="idRecompensa" th:field="*{reconpensa}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('reconpensa')}"  th:errors="*{reconpensa}" ></div>
+					</div>
+					<div class="form-group">
+						<label for="idUriImagen">Enlace Imagen</label> 
+						<input type="text" name="uriImagen" class="form-control" id="idUriImagen" th:field="*{uriImagen}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('uriImagen')}"  th:errors="*{uriImagen}" ></div>
 					</div>
 					
 					
 					<button type="submit" class="btn btn-success">Crear Personaje</button>
 				</form>
-			</div>
-			<hr>
-			<div>
-				<span th:text="${personaje.nombres}"></span><br/>
-				<span th:text="${personaje.alias}"></span><br/>
-				<span th:text="${personaje.tipoFruta}"></span><br/>
-				<span th:text="${personaje.habilidad}"></span><br/>
-				<span th:text="${personaje.tripulacion}"></span><br/>
-				<span th:text="${personaje.reconpensa}"></span><br/>
-			</div>
-			
+			</div>			
 
 		</div>
 	</div>

@@ -11,7 +11,7 @@ import com.certus.spring.models.Response;
 @Component("servicio2")
 public class PersonajeService2 implements IPersonajeService {
 
-	public Response<Personaje> crearPersonaje() {
+	public Response<Personaje> crearPersonaje( Personaje p) {
 		
 		Response<Personaje> response = new Response<>();	
 		
@@ -76,15 +76,11 @@ public class PersonajeService2 implements IPersonajeService {
 
 
 	@Override
-	public String demoMetodo(Personaje p) {
-		
-		String respuesta = "Procesando Servicio 2";
-		
-		if(p != null) {
-			respuesta = "Todo OK Servicio 2";
-		}
-		
-		return respuesta;
+	public Response<Personaje> listarPersonaje() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
 
 }

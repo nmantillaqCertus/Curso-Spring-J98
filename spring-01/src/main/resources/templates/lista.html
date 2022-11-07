@@ -8,7 +8,7 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">One Piece</a>
+		<a class="navbar-brand" th:href="@{/app/home}">One Piece</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -18,10 +18,10 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Inicio
-						<span class="sr-only">(current)</span>
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/app/home}">Inicio <span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/app/listar}">Lista
+				<li class="nav-item"><a class="nav-link" href="#">Lista
 						Personaje</a></li>
 
 				<li class="nav-item"><a class="nav-link"
@@ -43,9 +43,27 @@
 
 			<hr class="my-4">
 			<div class="jumbotron">
-				<img style="border-radius: 20px;
-				width: 100%;box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;" 
-				alt="Spring Framework" th:src="@{/img/Spring-logo.png}">
+				<div class="list-group mt-2" th:each="personaje : ${listita}">
+						<div class="card" style="width: 18rem;">
+							<img src="..." class="card-img-top" alt="...">
+							<div class="card-body">
+								<h5 class="card-title" th:text="${personaje.nombres}"></h5>
+
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item" th:text="${personaje.alias}"></li>
+									<li class="list-group-item" th:text="${personaje.tipoFruta}"></li>
+									<li class="list-group-item">A third item</li>
+									<li class="list-group-item">A fourth item</li>
+									<li class="list-group-item">And a fifth one</li>
+								</ul>
+
+								<!-- <p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>-->
+								<a href="#" class="btn btn-success">Editar</a> 
+								<a href="#" class="btn btn-danger">Eliminar</a>
+							</div>
+						</div>
+				</div>
 			</div>
 
 		</div>
