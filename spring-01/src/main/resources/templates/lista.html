@@ -45,22 +45,17 @@
 			<div class="jumbotron">
 				<div class="list-group mt-2" th:each="personaje : ${listita}">
 						<div class="card" style="width: 18rem;">
-							<img src="..." class="card-img-top" alt="...">
+							<img th:src="${personaje.uriImagen}" class="card-img-top" alt="...">
 							<div class="card-body">
 								<h5 class="card-title" th:text="${personaje.nombres}"></h5>
 
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item" th:text="${personaje.alias}"></li>
 									<li class="list-group-item" th:text="${personaje.tipoFruta}"></li>
-									<li class="list-group-item">A third item</li>
-									<li class="list-group-item">A fourth item</li>
-									<li class="list-group-item">And a fifth one</li>
 								</ul>
 
-								<!-- <p class="card-text">Some quick example text to build on the
-									card title and make up the bulk of the card's content.</p>-->
-								<a href="#" class="btn btn-success">Editar</a> 
-								<a href="#" class="btn btn-danger">Eliminar</a>
+								<a th:href="@{/app/Editar}+ ${personaje.idPersonaje}" class="btn btn-success">Editar</a> 
+								<a th:href="@{/app/Elimnar}+ ${personaje.idPersonaje}"  class="btn btn-danger">Eliminar</a>
 							</div>
 						</div>
 				</div>

@@ -7,7 +7,7 @@ public interface IPersonajeService {
 	
 	public Response<Personaje> crearPersonaje(Personaje p);
 	
-	public String editarPersonaje();
+	public Response<Personaje> editarPersonaje();
 	
 	public Response<Personaje> listarPersonaje();
 
