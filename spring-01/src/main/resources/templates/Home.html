@@ -1,40 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title th:text="${TituloPagina}"></title>
-<link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
-</head>
+<head th:replace="/layout :: head"></head>
 <body>
-
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">One Piece</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Inicio
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/app/listar}">Lista
-						Personaje</a></li>
-
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/app/crear}">Crear Personaje</a></li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
-		</div>
-	</nav>
-
+	
+	<header th:replace="/layout :: header"></header>
+	
+	<!--Inicio de contenido-->
 	<div class="container mt-2">
 		<div class="jumbotron">
 			<h1 class="display-4" th:text="${titulo}"></h1>
@@ -47,15 +18,10 @@
 				width: 100%;box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;" 
 				alt="Spring Framework" th:src="@{/img/Spring-logo.png}">
 			</div>
-
 		</div>
-
 	</div>
+	<!--Fin de contenido-->
 
-
-	<script src="/bootstrap/jquery.slim.min.js"></script>
-	<script src="/bootstrap/bootstrap.bundle.min.js"></script>
-
-
+	<footer th:replace="/layout :: footer"></footer>
 </body>
 </html>

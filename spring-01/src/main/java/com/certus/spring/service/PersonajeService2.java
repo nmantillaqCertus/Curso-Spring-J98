@@ -63,7 +63,7 @@ public class PersonajeService2 implements IPersonajeService {
 		return response;
 	}
 
-	public Response<Personaje> editarPersonaje() {
+	public Response<Personaje> editarPersonaje( int ID) {
 
 		Response<Personaje> response = new Response<>();
 
@@ -72,6 +72,18 @@ public class PersonajeService2 implements IPersonajeService {
 
 	@Override
 	public Response<Personaje> listarPersonaje() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response<Personaje> editarPersonaje(Integer ID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response<Personaje> eliminarPersonaje(Integer ID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

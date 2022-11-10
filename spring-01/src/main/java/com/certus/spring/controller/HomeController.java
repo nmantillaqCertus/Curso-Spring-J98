@@ -77,11 +77,36 @@ public class HomeController {
 		return "Formulario";		
 	}
 	
-	@GetMapping("/Editar")
+	@GetMapping("/Editar/{idPersonaje}")
 	public String EditarPersonaje(@PathVariable int idPersonaje, Model model) {
 		
 		
+		model.addAttribute("TituloPagina", titlePage);	
+		
+		Response<Personaje> rspta = InterfacePersonaje1.editarPersonaje(idPersonaje);
+		
+		model.addAttribute("titulo", "Sección J98 - Editando el personaje "+rspta.getData().getNombres());
+		
+		model.addAttribute("personaje", rspta.getData());
+				
+		
 		return "Formulario";
+	}
+	
+	@GetMapping("/Elimnar/{idPersonaje}")
+	public String ElimnarPersonaje(@PathVariable int idPersonaje, Model model) {
+		
+		
+		Response<Personaje> rspta = InterfacePersonaje1.eliminarPersonaje(idPersonaje);
+		
+		if (rspta.getEstado()) {			
+			return "redirect:/app/listar";	
+		}else {
+			model.addAttribute("mensaje", rspta.getMensaje());
+			model.addAttribute("mensajeError", rspta.getMensajeError());
+			
+			return "errores";
+		}
 	}
 	
 	@PostMapping("/form")
