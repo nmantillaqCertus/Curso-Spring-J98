@@ -16,7 +16,7 @@
 			<hr class="my-4">
 
 			<div>
-				<form th:action="@{/app/form}" th:object="${personaje}"  method="post">
+				<form th:action="@{/app/form}" th:object="${personaje}"  method="post" enctype="multipart/form-data">				
 				
 					<div class="form-group">
 						<label for="idNombres">Nombres</label> 
@@ -53,12 +53,11 @@
 						<input type="text" name="reconpensa" class="form-control" id="idRecompensa" th:field="*{reconpensa}"> 
 						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('reconpensa')}"  th:errors="*{reconpensa}" ></div>
 					</div>
+					
 					<div class="form-group">
 						<label for="idUriImagen">Enlace Imagen</label> 
-						<input type="text" name="uriImagen" class="form-control" id="idUriImagen" th:field="*{uriImagen}"> 
-						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('uriImagen')}"  th:errors="*{uriImagen}" ></div>
+						<input type="file" name="ImagenDelFormulario" class="form-control" id="idUriImagen">
 					</div>
-					
 					
 					<button type="submit" class="btn btn-success">Crear Personaje</button>
 				</form>

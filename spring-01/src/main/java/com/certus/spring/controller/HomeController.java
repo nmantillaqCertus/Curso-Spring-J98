@@ -1,5 +1,10 @@
 package com.certus.spring.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
@@ -19,6 +28,7 @@ import com.certus.spring.service.IPersonajeService;
 
 @Controller
 @RequestMapping("/app")
+@SessionAttributes("personaje")
 public class HomeController {
 
 	@Value("${title.generic}")
@@ -29,12 +39,7 @@ public class HomeController {
 		
 	@Autowired
 	@Qualifier("servicio1")
-	private IPersonajeService InterfacePersonaje1; 
-	
-	@Autowired
-	@Qualifier("servicio2")
-	private IPersonajeService InterfacePersonaje2; 
-	
+	private IPersonajeService InterfacePersonaje1;
 
 	@GetMapping({ "/home", "/inicio", "/", "/Home", "/Inicio" })
 	public String Home(Model model) {
@@ -110,16 +115,48 @@ public class HomeController {
 	}
 	
 	@PostMapping("/form")
-	public String creaPersonaje(@Valid Personaje Luffy, BindingResult result, Model model) {
+	public String creaPersonaje(@Valid Personaje Luffy, 
+								BindingResult result, 
+								Model model,
+								@RequestParam("ImagenDelFormulario") MultipartFile fileRecibido,
+								SessionStatus sStatus) {
 		
 		if(result.hasErrors()) {						
 			return "Formulario";
+		}
+		
+		if (!fileRecibido.isEmpty()) {			
+			Path rutaRelativaFile = Paths.get("src//main//resources//UploadsImg");
+			String rutaAbsoluta = rutaRelativaFile.toFile().getAbsolutePath();
+			
+			try {
+				byte [] bytesFile = fileRecibido.getBytes();
+				Path enlaceAGuardar = Paths.get(rutaAbsoluta+"//"+fileRecibido.getOriginalFilename());
+				Files.write(enlaceAGuardar, bytesFile);
+				
+				Luffy.setUriImagen(fileRecibido.getOriginalFilename());
+				
+			} catch (IOException e) {
+				model.addAttribute("mensaje", "Error al procesar la Imagen");
+				model.addAttribute("mensajeError", e.getStackTrace());
+				return "errores";			
+			}
+			
+		}else {
+			model.addAttribute("Estado", "El personaje requiere una imagen");			
+			return "Formulario";
 		}		
+		
+		
 		Response<Personaje> rspta = InterfacePersonaje1.crearPersonaje(Luffy);
 		
-		if (rspta.getEstado()) {			
+		
+		if (rspta.getEstado()) {
+			
+			sStatus.setComplete();
 			return "redirect:/app/listar";	
-		}else {
+			
+			}else {
 			model.addAttribute("mensaje", rspta.getMensaje());
 			model.addAttribute("mensajeError", rspta.getMensajeError());
 			return "errores";

@@ -20,6 +20,7 @@ public class PersonajeService implements IPersonajeService {
 	public Response<Personaje> crearPersonaje(Personaje p) {		
 		Response<Personaje> response = new Response<>();		
 		try {
+			
 			Personaje personaje = personajeRepository.save(p);			
 			response.setEstado(true);
 			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido creado correctamente");
