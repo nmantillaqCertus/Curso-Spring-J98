@@ -20,15 +20,10 @@ public class MvcConfig  implements WebMvcConfigurer{
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/"+folder+"/**")
-		.addResourceLocations("file:/"+pathFolder+"/");
-		
+		.addResourceLocations("file:/"+pathFolder+"/");		
 	}
-	
 	
 	public String pathImage() {		
 		return pathFolder;
 	} 
-	
-	
-	
 }

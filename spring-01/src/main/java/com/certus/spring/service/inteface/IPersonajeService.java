@@ -1,4 +1,4 @@
-package com.certus.spring.service;
+package com.certus.spring.service.inteface;
 
 import org.springframework.web.multipart.MultipartFile;
 

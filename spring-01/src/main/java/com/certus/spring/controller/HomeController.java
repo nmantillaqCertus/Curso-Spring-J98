@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
-import com.certus.spring.service.IPersonajeService;
+import com.certus.spring.service.inteface.IPersonajeService;
 
 @Controller
 @RequestMapping("/app")
