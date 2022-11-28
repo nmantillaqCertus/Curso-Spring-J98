@@ -11,6 +11,7 @@ import com.certus.spring.config.MvcConfig;
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
 import com.certus.spring.models.ResponseFile;
+import com.certus.spring.models.dto.PersonajeDTO;
 import com.certus.spring.repository.PersonajeDAO;
 import com.certus.spring.service.inteface.IFileGeneric;
 import com.certus.spring.service.inteface.IPersonajeService;
@@ -20,7 +21,7 @@ public class PersonajeService implements IPersonajeService {
 	
 	@Autowired
 	PersonajeDAO personajeRepository;
-	
+		
 	@Autowired
 	IFileGeneric fileGeneric;
 	
@@ -33,7 +34,7 @@ public class PersonajeService implements IPersonajeService {
 		Response<Personaje> response = new Response<>();		
 		try {
 			
-			if (!fileRecibido.isEmpty()) {
+			if (!fileRecibido.isEmpty()) {	
 				if (p.getUriImagen() != null) {						
 					fileGeneric.eliminarFile(p.getUriImagen());
 				}
@@ -51,7 +52,7 @@ public class PersonajeService implements IPersonajeService {
 			
 			Personaje personaje = personajeRepository.save(p);			
 			response.setEstado(true);
-			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido creado correctamente");
+			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido guardado correctamente");
 			
 		} catch (Exception e) {
 			response.setEstado(false);
@@ -74,6 +75,7 @@ public class PersonajeService implements IPersonajeService {
 			
 		} catch (Exception e) {
 			response.setEstado(false);
+			response.setMensaje("Se produjo un error o el personaje no existe");
 			response.setMensajeError(e.getStackTrace().toString());
 		}
 		
@@ -82,13 +84,10 @@ public class PersonajeService implements IPersonajeService {
 	
 	
 	@Override
-	public Response<Personaje> eliminarPersonaje(Integer ID) {
-		
-		Response<Personaje> response = new Response<>();
-		
+	public Response<Personaje> eliminarPersonaje(Integer ID) {		
+		Response<Personaje> response = new Response<>();		
 		try {
-			Optional<Personaje> p = personajeRepository.findById(ID);
-			
+			Optional<Personaje> p = personajeRepository.findById(ID);			
 			if (p.get().getUriImagen() != null) {						
 				fileGeneric.eliminarFile(p.get().getUriImagen());
 			}
@@ -99,7 +98,7 @@ public class PersonajeService implements IPersonajeService {
 			
 		} catch (Exception e) {
 			response.setEstado(false);
-			response.setMensaje("Error al eliminar el personaje");
+			response.setMensaje("Se produjo un error o el personaje no existe");
 			response.setMensajeError(e.getStackTrace().toString());
 		}
 				
@@ -107,13 +106,9 @@ public class PersonajeService implements IPersonajeService {
 	}
 
 
-
-
 	@Override
-	public Response<Personaje> listarPersonaje() {
-		
-		Response<Personaje> response = new Response<>();
-		
+	public Response<Personaje> listarPersonaje() {		
+		Response<Personaje> response = new Response<>();		
 		try {
 			
 			response.setListData((List<Personaje>) personajeRepository.findAll());
@@ -128,7 +123,52 @@ public class PersonajeService implements IPersonajeService {
 		return response;
 	}
 
-
+	@Override
+	public Response<Personaje> crearPersonajeAPI(PersonajeDTO p) {		
+		
+		Response<Personaje> response = new Response<>();		
+		try {
+			
+			if (!p.getFileBase64().isEmpty()) {	
+				
+				if (p.getUriImagen() != null) {						
+					fileGeneric.eliminarFile(p.getUriImagen());
+				}
+				
+				ResponseFile respuesta = fileGeneric.crearFileAPI(p.getFileBase64(), p.getNombreFileExtension());
+				if (respuesta.isEstado()) {
+					p.setUriImagen(respuesta.getNombreFile());
+				}else {
+					response.setEstado(false);
+					response.setMensaje("Error al procesar el archivo "+respuesta.getNombreFile());
+					response.setMensajeError(respuesta.getMensajeError());	
+					return response; 
+				}				
+			}
+			
+			//Definir el personaje del tipo "Personaje"
+			Personaje Prj = new Personaje(); 
+						
+			Prj.setIdPersonaje(p.getIdPersonaje());
+			Prj.setNombres(p.getNombres());
+			Prj.setAlias(p.getAlias());
+			Prj.setTipoFruta(p.getTipoFruta());
+			Prj.setHabilidad(p.getHabilidad());
+			Prj.setTripulacion(p.getTripulacion());
+			Prj.setReconpensa(p.getReconpensa());
+			Prj.setUriImagen(p.getUriImagen());
+			
+			Personaje personaje = personajeRepository.save(Prj);			
+			response.setEstado(true);
+			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido guardado correctamente");
+			
+		} catch (Exception e) {
+			response.setEstado(false);
+			response.setMensaje("Error al crear el personajes "+p.getNombres());
+			response.setMensajeError(e.getStackTrace().toString());
+		}		
+		return response;
+	}
 
 
 	
