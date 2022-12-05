@@ -1,12 +1,12 @@
 package com.certus.spring;
 
-import org.junit.jupiter.api.Test;
+/*import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+*/
+//@SpringBootTest
 class Spring01ApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
