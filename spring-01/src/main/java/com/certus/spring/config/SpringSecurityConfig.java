@@ -43,7 +43,7 @@ public class SpringSecurityConfig {
 		http.authorizeRequests(
 				(req) -> req
 						.antMatchers("/app/home", "/bootstrap/**", "/img/**").permitAll()
-						.antMatchers("/app/listar").hasRole("User")
+						.antMatchers("/app/listar").hasAnyRole("User","SuperAdmin")
 						.antMatchers("/app/Editar/**").hasRole("SuperAdmin")
 						.anyRequest().authenticated()
 				

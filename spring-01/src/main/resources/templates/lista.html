@@ -31,6 +31,9 @@
 
 								<a th:href="@{/app/Editar/}+${personaje.idPersonaje}" class="btn btn-success">Editar</a> 
 								<a th:href="@{/app/Elimnar/}+${personaje.idPersonaje}"  class="btn btn-danger">Eliminar</a>
+								
+								<a th:href="@{'/app/Editar/'+${personaje.idPersonaje}(format=pdf)}" class="btn btn-info">PDF</a>
+								
 							</div>
 						</div>
 				</div>
